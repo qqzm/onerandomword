@@ -22,7 +22,7 @@ $action = isset($params['action']) ? $params['action'] : '';
 
 switch ($action) {
 	case 'categories': 	print(getCategories()); break;
-	case 'words': 		print_r(getWords()); break;
+	case 'words': 		print(getWords()); break;
 	default: 			print(getDefaultPage());
 }
 
