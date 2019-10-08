@@ -34,23 +34,35 @@ Ext.define('OneRandomWord.view.list.List', {
 		}, {
 			xtype: 'checkcolumn',
 			dataIndex: 'selected',
-			flex: 1
-		}]
+			flex: 1,
+			listeners: {
+				checkchange: 'onCheck'
+			}
+		}],
+
+		listeners: {
+			painted: 'onCheck'
+		}
 	}],
 
 	tbar: {
 		items: [
 			{
 				xtype: 'button',
-				text: 'Select All',
+				text: 'All',
 				iconCls: 'x-fa fa-check-circle',
 				handler: 'selectAll'
 			},
 			{
 				xtype: 'button',
-				text: 'Select None',
+				text: 'None',
 				iconCls: 'x-fa fa-ban',
 				handler: 'selectNone'
+			},
+			'->',
+			{
+				xtype: 'label',
+				tpl: '{count} selected'
 			}
 		]
 	}

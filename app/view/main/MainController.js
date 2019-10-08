@@ -59,13 +59,28 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		var word;
 		var category;
 		do {
+			if (sender._title == 'Previous') { // Back button.
+				this.lastIndex--;
+				if (this.lastIndex < 0) {
+					this.lastIndex = wordStore.getCount() - 1;
+				}
+			}
+			else { // Generate button or resize event.
+				this.lastIndex++;
+				if (this.lastIndex >= wordStore.getCount()) {
+					this.lastIndex = 0;
+				}
+			}
+			
 			word = wordStore.getAt(this.lastIndex);
 			category = categoryStore.getAt(categoryStore.findExact('id', word.get('category_id')));
-			this.lastIndex++;
 		}
 		while (category.get('selected') == false);
 
 		// Update displayed word.
 		wordPanel.setData(word.data);
+		// Set the active item ourseleves and return false to prevent the default switching.
+		tabPanel.setActiveItem(0);
+		return false;
 	}
 });

@@ -22,7 +22,7 @@ $action = isset($params['action']) ? $params['action'] : '';
 
 switch ($action) {
 	case 'categories': 	print(getCategories()); break;
-	case 'words': 		print_r(getWords()); break;
+	case 'words': 		print(getWords()); break;
 	default: 			print(getDefaultPage());
 }
 
@@ -50,7 +50,7 @@ function getCategories() {
 
 function getWords() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT id, category_id, word FROM Words ORDER BY RAND();");
+	$stmt = $db->prepare("SELECT id, category_id, word, CASE WHEN word LIKE '% %' THEN 0 WHEN word LIKE '%-%' THEN 0 ELSE 1 END AS is_single_word FROM Words ORDER BY RAND();");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -61,7 +61,8 @@ function getWords() {
 			'fields' => array(
 				array('name' => 'id', 'type' => 'int', 'format' => '0'),
 				array('name' => 'category_id', 'type' => 'int', 'format' => '0'),
-				array('name' => 'word', 'type' => 'string')
+				array('name' => 'word', 'type' => 'string'),
+				array('name' => 'is_single_word', 'type' => 'boolean')
 			)
 		),
 		'results' => $results

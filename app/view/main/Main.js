@@ -37,6 +37,14 @@ Ext.define('OneRandomWord.view.main.Main', {
 				}
 			}
 		},{
+			title: 'Previous',
+			iconCls: 'x-fa fa-chevron-circle-left',
+			tab: {
+				listeners: {
+					tap: 'generate'
+				}
+			}
+		},{
 			title: 'Word Lists',
 			iconCls: 'x-fa fa-cog',
 			layout: 'fit',
