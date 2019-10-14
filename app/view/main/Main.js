@@ -15,24 +15,6 @@ Ext.define('OneRandomWord.view.main.Main', {
 	controller: 'main',
 	viewModel: 'main',
 
-	tbar: {
-		items: [
-			'->',
-			{
-				//iconCls: 'x-fa fa-edit',
-				xtype: 'textfield',
-				width: 300,
-				listeners: {
-					change: 'editText'
-				}
-			},
-			{
-				iconCls: 'x-fa fa-cog',
-				handler: 'optionsClick'
-			}
-		]
-	},
-
 	layout: 'card',
 
 	items: [
@@ -42,6 +24,7 @@ Ext.define('OneRandomWord.view.main.Main', {
 
 	listeners: {
 		resize: 'resize',
-		initialize: 'initialise'
+		initialize: 'initialise',
+		generate: 'generate'
 	}
 });

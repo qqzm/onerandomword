@@ -1,5 +1,5 @@
 Ext.define('OneRandomWord.view.list.List', {
-	extend: 'Ext.Container',
+	extend: 'Ext.panel.Panel',
 	xtype: 'options',
 
 	requires: [
@@ -13,45 +13,97 @@ Ext.define('OneRandomWord.view.list.List', {
 		type: 'list'
 	},
 
-	layout: 'vbox',
+	layout: 'card',
+	//scrollable: 'vertical',
+
+	tbar: {
+		items: [
+			{
+				iconCls: 'x-fa fa-arrow-left',
+				handler: 'backClick'
+			},
+			'->',
+			{
+				//iconCls: 'x-fa fa-arrow-left',
+				text: 'Presets',
+				handler: 'buttonClick'
+			},
+			{
+				//iconCls: 'x-fa fa-arrow-left',
+				text: 'Options',
+				handler: 'buttonClick'
+			},
+			{
+				//iconCls: 'x-fa fa-arrow-left',
+				text: 'Word Lists',
+				handler: 'buttonClick'
+			}
+		]
+	},
 
 	items: [{
 		xtype: 'panel',
 		title: 'Presets',
+		//flex: 1,
+		//scrollable: 'vertical',
+		defaults: {
+			labelWidth: 325,
+			style: {
+				paddingLeft: '10px'
+			}
+		},
 		listeners: {
 			initialize: 'createRadioGroup'
 		}
 	},{
 		xtype: 'panel',
+		title: 'Options',
+		//flex: 1,
+		//scrollable: 'vertical',
+		defaults: {
+			xtype: 'checkbox',
+			labelWidth: 325,
+			style: {
+				paddingLeft: '10px'
+			}
+		},
+		items: [
+			{
+				label: 'Single words only',
+				itemId: 'singleWordsOnly',
+				listeners: {
+					change: 'settingChange'
+				}
+			},{
+				label: 'Child-friendly words only',
+				itemId: 'childFriendlyWordsOnly',
+				listeners: {
+					change: 'settingChange'
+				}
+			},{
+				label: 'Generate new word when changing to landscape',
+				itemId: 'generateLandscape',
+				checked: true
+			},{
+				label: 'Generate new word when changing to portrait',
+				itemId: 'generatePortrait'
+			},
+			{
+				xtype: 'label',
+				tpl: '{count} words selected',
+				hidden: true
+			}
+		]
+	},{
+		xtype: 'panel',
 		title: 'Word Lists',
 		layout: 'fit',
-		flex: 1,
-		tbar: {
-			items: [
-				/*
-				{
-					xtype: 'button',
-					text: 'All',
-					iconCls: 'x-fa fa-check-circle',
-					handler: 'selectAll'
-				},
-				{
-					xtype: 'button',
-					text: 'None',
-					iconCls: 'x-fa fa-ban',
-					handler: 'selectNone'
-				},
-				'->',
-				*/
-				{
-					xtype: 'label',
-					tpl: '{count} words selected'
-				}
-			]
-		},
+		//scrollable: false,
+		//flex: 2,
 		items: [{
 			xtype: 'grid',
 			store: 'Categories',
+			//scrollable: false,
 			hideHeaders: true,
 	
 			columns: [{

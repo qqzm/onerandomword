@@ -8,7 +8,6 @@ Ext.define('OneRandomWord.view.main.MainController', {
 	alias: 'controller.main',
 
 	initialise: function(sender) {
-		// Setup event handlers
 		var me = this;
 
 		// Perform initial load.
@@ -23,20 +22,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			}
 		});
 
-		sender.element.on(
-			'swipe', 
-			function(event) {
-				// Ignore swipe event unless word display is focussed.
-				if (sender.getActiveItemIndex() != 0) return;
-				if (event.direction == 'right' || event.direction == 'down') {
-					me.generate(sender);
-				}
-				else if (event.direction == 'left' || event.direction == 'up') {
-					me.generate(sender, true);
-				}
-			},
-			sender
-		);
+		// Setup event handlers
 		document.onkeyup = function(event) {
 			// Ignore key event unless word display is focussed.
 			if (sender.getActiveItemIndex() != 0) return;
@@ -51,40 +37,17 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		};
 	},
 
-	optionsClick: function(sender) {
-		// Toggle the active item between words and options.
-		var mainPanel = sender.up('app-main');
-		if (mainPanel.getActiveItemIndex() == 1) {
-			mainPanel.setActiveItem(0);
-		}
-		else {
-			mainPanel.setActiveItem(1);
-		}
-	},
-
-	editText: function(sender, newValue) {
-		var mainPanel = sender.up('app-main');
-		var wordPanel = mainPanel.down('word');
-		if (!Ext.isDefined(wordPanel)) return;
-
-		this.setText(wordPanel, {
-			word: newValue
-		});
-	},
-
 	resize: function(sender) {
 		var me = this;
 		if (Ext.getStore('Words').isLoaded()) {
-			if (Ext.Viewport.getOrientation() == 'portrait') {
+			var enableLandscape = sender.down('#generateLandscape').getChecked();
+			var enablePortrait = sender.down('#generatePortrait').getChecked();
+			if ((Ext.Viewport.getOrientation() == 'portrait' && enablePortrait) ||
+				(Ext.Viewport.getOrientation() == 'landscape' && enableLandscape)) {
 				me.generate(sender);
 			}
+			me.setSize();
 		}
-	},
-
-	setText(wordPanel, data) {
-		// Update displayed word.
-		wordPanel.setData(data);
-		window.fitText(document.getElementById("word_div"));
 	},
 
 	generate: function(sender, isBack) {
@@ -138,6 +101,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		while (category.get('selected') == false);
 
 		// Update displayed word.
-		this.setText(wordPanel, word.data);
+		wordPanel.fireEvent('settext', wordPanel, word.data);
+		//this.setText(wordPanel, word.data);
 	}
 });

@@ -74,7 +74,7 @@ function getPresets() {
 
 function getWords() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT id, category_id, word, CASE WHEN word LIKE '% %' THEN 0 WHEN word LIKE '%-%' THEN 0 ELSE 1 END AS is_single_word FROM Words ORDER BY RAND();");
+	$stmt = $db->prepare("SELECT id, category_id, word, CASE WHEN word LIKE '% %' THEN 0 WHEN word LIKE '%-%' THEN 0 ELSE 1 END AS is_single_word, is_child_friendly FROM Words ORDER BY RAND();");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -86,7 +86,8 @@ function getWords() {
 				array('name' => 'id', 'type' => 'int', 'format' => '0'),
 				array('name' => 'category_id', 'type' => 'int', 'format' => '0'),
 				array('name' => 'word', 'type' => 'string'),
-				array('name' => 'is_single_word', 'type' => 'boolean')
+				array('name' => 'is_single_word', 'type' => 'boolean'),
+				array('name' => 'is_child_friendly', 'type' => 'boolean')
 			)
 		),
 		'results' => $results
