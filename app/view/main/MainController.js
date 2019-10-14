@@ -7,6 +7,61 @@ Ext.define('OneRandomWord.view.main.MainController', {
 
 	alias: 'controller.main',
 
+	initialise: function(sender) {
+		// Setup event handlers
+		var me = this;
+
+		// Perform initial load.
+		me.lastIndex = 0;
+		Ext.getStore('Categories').load({
+			callback: function() {
+				Ext.getStore('Words').load({
+					callback: function() {
+						me.generate(sender);
+					}
+				});
+			}
+		});
+
+		sender.element.on(
+			'swipe', 
+			function(event) {
+				// Ignore swipe event unless word display is focussed.
+				if (sender.getActiveItemIndex() != 0) return;
+				if (event.direction == 'right' || event.direction == 'down') {
+					me.generate(sender);
+				}
+				else if (event.direction == 'left' || event.direction == 'up') {
+					me.generate(sender, true);
+				}
+			},
+			sender
+		);
+		document.onkeyup = function(event) {
+			// Ignore key event unless word display is focussed.
+			if (sender.getActiveItemIndex() != 0) return;
+			// Right or down arrow.
+			if (event.keyCode == 39 || event.keyCode == 40) {
+				me.generate(sender);
+			}
+			// Left or up arrow.
+			else if (event.keyCode == 37 || event.keyCode == 38) {
+				me.generate(sender, true);
+			}
+		};
+	},
+
+	optionsClick: function(sender) {
+		// Toggle the active item between words and options.
+		var mainPanel = sender.up('app-main');
+		if (mainPanel.getActiveItemIndex() == 1) {
+			mainPanel.setActiveItem(0);
+		}
+		else {
+			mainPanel.setActiveItem(1);
+		}
+	},
+
 	resize: function(sender) {
 		var me = this;
 		if (Ext.getStore('Words').isLoaded()) {
@@ -14,24 +69,12 @@ Ext.define('OneRandomWord.view.main.MainController', {
 				me.generate(sender);
 			}
 		}
-		else {
-			me.lastIndex = 0;
-			Ext.getStore('Categories').load({
-				callback: function() {
-					Ext.getStore('Words').load({
-						callback: function() {
-							me.generate(sender);
-						}
-					});
-				}
-			});
-		}
 	},
 
-	generate: function(sender) {
-		var tabPanel = sender.up('tabpanel');
-		if (!Ext.isDefined(tabPanel)) tabPanel = sender;
-		var wordPanel = tabPanel.down('word');
+	generate: function(sender, isBack) {
+		var mainPanel = sender.up('app-main');
+		if (!Ext.isDefined(mainPanel)) mainPanel = sender;
+		var wordPanel = mainPanel.down('word');
 		if (!Ext.isDefined(wordPanel)) return;
 
 		var wordStore = Ext.getStore('Words');
@@ -59,13 +102,13 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		var word;
 		var category;
 		do {
-			if (sender._title == 'Previous') { // Back button.
+			if (isBack) { // Go backwards.
 				this.lastIndex--;
 				if (this.lastIndex < 0) {
 					this.lastIndex = wordStore.getCount() - 1;
 				}
 			}
-			else { // Generate button or resize event.
+			else { // Is forwards.
 				this.lastIndex++;
 				if (this.lastIndex >= wordStore.getCount()) {
 					this.lastIndex = 0;
@@ -81,8 +124,5 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		// Update displayed word.
 		wordPanel.setData(word.data);
 		window.fitText(document.getElementById("word_div"));
-		// Set the active item ourseleves and return false to prevent the default switching.
-		tabPanel.setActiveItem(0);
-		return false;
 	}
 });

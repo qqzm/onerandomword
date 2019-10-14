@@ -4,23 +4,43 @@
  * added to the Viewport container.
  */
 Ext.define('OneRandomWord.view.main.Main', {
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.panel.Panel',
 	xtype: 'app-main',
 
 	requires: [
 		'Ext.MessageBox',
-		'Ext.layout.Fit'
+		'Ext.layout.Card'
 	],
 
 	controller: 'main',
 	viewModel: 'main',
 
+	/*
 	defaults: {
 		tab: {
 			iconAlign: 'top'
 		}
 	},
+	*/
 
+	tbar: {
+		items: [
+			'->',
+			{
+				iconCls: 'x-fa fa-cog',
+				handler: 'optionsClick'
+			}
+		]
+	},
+
+	layout: 'card',
+
+	items: [
+		{xtype: 'word'},
+		{xtype: 'options'}
+	],
+
+	/*
 	tabBarPosition: 'bottom',
 
 	items: [
@@ -44,17 +64,12 @@ Ext.define('OneRandomWord.view.main.Main', {
 					tap: 'generate'
 				}
 			}
-		},{
-			title: 'Options',
-			iconCls: 'x-fa fa-cog',
-			layout: 'fit',
-			items: [{
-				xtype: 'options'
-			}]
-		},
+		}
 	],
+	*/
 
 	listeners: {
-		resize: 'resize'
+		resize: 'resize',
+		initialize: 'initialise'
 	}
 });
