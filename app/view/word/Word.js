@@ -18,5 +18,5 @@ Ext.define('OneRandomWord.view.word.Word',{
 		paddingRight: '50px'
 	},
 
-	tpl: '<svg viewBox="0 0 100 50" preserveAspectRatio="xMidYMid slice"><text font-size="12" fill="slategray" style="font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;" text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">reimbursement</text></svg>'
+	tpl: '<svg viewBox="0 0 100 50" preserveAspectRatio="xMidYMid slice"><text font-size="12" fill="slategray" style="font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;" text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">{word}</text></svg>'
 });
