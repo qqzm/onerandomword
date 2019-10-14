@@ -80,6 +80,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 
 		// Update displayed word.
 		wordPanel.setData(word.data);
+		window.fitText(document.getElementById("word_div"));
 		// Set the active item ourseleves and return false to prevent the default switching.
 		tabPanel.setActiveItem(0);
 		return false;
