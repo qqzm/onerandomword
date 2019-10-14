@@ -74,6 +74,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			
 			word = wordStore.getAt(this.lastIndex);
 			category = categoryStore.getAt(categoryStore.findExact('id', word.get('category_id')));
+			word.set('category_label', category.get('label'));
 		}
 		while (category.get('selected') == false);
 

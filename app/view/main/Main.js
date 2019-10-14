@@ -45,11 +45,11 @@ Ext.define('OneRandomWord.view.main.Main', {
 				}
 			}
 		},{
-			title: 'Word Lists',
+			title: 'Options',
 			iconCls: 'x-fa fa-cog',
 			layout: 'fit',
 			items: [{
-				xtype: 'categorylist'
+				xtype: 'options'
 			}]
 		},
 	],
