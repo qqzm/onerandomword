@@ -62,6 +62,16 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		}
 	},
 
+	editText: function(sender, newValue) {
+		var mainPanel = sender.up('app-main');
+		var wordPanel = mainPanel.down('word');
+		if (!Ext.isDefined(wordPanel)) return;
+
+		this.setText(wordPanel, {
+			word: newValue
+		});
+	},
+
 	resize: function(sender) {
 		var me = this;
 		if (Ext.getStore('Words').isLoaded()) {
@@ -69,6 +79,12 @@ Ext.define('OneRandomWord.view.main.MainController', {
 				me.generate(sender);
 			}
 		}
+	},
+
+	setText(wordPanel, data) {
+		// Update displayed word.
+		wordPanel.setData(data);
+		window.fitText(document.getElementById("word_div"));
 	},
 
 	generate: function(sender, isBack) {
@@ -83,7 +99,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		// If no categories are enabled.
 		if (categoryStore.findExact('selected', true) == -1) {
 			// Show error.
-			wordPanel.setData({
+			this.setText(wordPanel, {
 				word: 'No word lists enabled'
 			});
 			return;
@@ -92,7 +108,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		// If no words exist
 		if (wordStore.getCount() == 0) {
 			// Show error.
-			wordPanel.setData({
+			this.setText(wordPanel, {
 				word: 'No words'
 			});
 			return;
@@ -122,7 +138,6 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		while (category.get('selected') == false);
 
 		// Update displayed word.
-		wordPanel.setData(word.data);
-		window.fitText(document.getElementById("word_div"));
+		this.setText(wordPanel, word.data);
 	}
 });

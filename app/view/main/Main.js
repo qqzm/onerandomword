@@ -15,17 +15,17 @@ Ext.define('OneRandomWord.view.main.Main', {
 	controller: 'main',
 	viewModel: 'main',
 
-	/*
-	defaults: {
-		tab: {
-			iconAlign: 'top'
-		}
-	},
-	*/
-
 	tbar: {
 		items: [
 			'->',
+			{
+				//iconCls: 'x-fa fa-edit',
+				xtype: 'textfield',
+				width: 300,
+				listeners: {
+					change: 'editText'
+				}
+			},
 			{
 				iconCls: 'x-fa fa-cog',
 				handler: 'optionsClick'
@@ -39,34 +39,6 @@ Ext.define('OneRandomWord.view.main.Main', {
 		{xtype: 'word'},
 		{xtype: 'options'}
 	],
-
-	/*
-	tabBarPosition: 'bottom',
-
-	items: [
-		{
-			title: 'Generate',
-			iconCls: 'x-fa fa-refresh',
-			layout: 'fit',
-			items: [{
-				xtype: 'word'
-			}],
-			tab: {
-				listeners: {
-					tap: 'generate'
-				}
-			}
-		},{
-			title: 'Previous',
-			iconCls: 'x-fa fa-chevron-circle-left',
-			tab: {
-				listeners: {
-					tap: 'generate'
-				}
-			}
-		}
-	],
-	*/
 
 	listeners: {
 		resize: 'resize',
