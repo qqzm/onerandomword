@@ -52,7 +52,7 @@ function getCategories() {
 
 function getPresets() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT id, label, bitmask, is_single_word_only, timer FROM Presets ORDER BY `sequence`, label;");
+	$stmt = $db->prepare("SELECT id, label, bitmask, is_single_word_only, timer, is_default FROM Presets ORDER BY `sequence`, label;");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -65,7 +65,8 @@ function getPresets() {
 				array('name' => 'label', 'type' => 'string'),
 				array('name' => 'bitmask', 'type' => 'int', 'format' => '0'),
 				array('name' => 'is_single_word_only', 'type' => 'boolean'),
-				array('name' => 'timer', 'type' => 'int', 'format' => '0')
+				array('name' => 'timer', 'type' => 'int', 'format' => '0'),
+				array('name' => 'is_default', 'type' => 'boolean')
 			)
 		),
 		'results' => $results

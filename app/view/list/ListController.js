@@ -23,7 +23,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 	},
 
 	settingChange: function(sender) {
-		var optionsPanel = sender.up('panel');
+		var optionsPanel = sender.up('options');
 		var singleWords = optionsPanel.down('#singleWordsOnly').isChecked();
 		var childFriendlyWords = optionsPanel.down('#childFriendlyWordsOnly').isChecked();
 		var wordStore = Ext.getStore('Words');
@@ -61,6 +61,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 	},
 
 	createRadioGroup: function(sender) {
+		var me = this;
 		var presetStore = Ext.getStore('Presets');
 		presetStore.load({
 			callback: function(records) {
@@ -69,6 +70,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 					sender.add({
 						xtype: 'radiofield',
 						name: 'preset',
+						checked: rec.get('is_default'),
 						value: rec.get('id'),
 						label: rec.get('label'),
 						listeners: {
@@ -76,6 +78,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 						}
 					});
 				}
+				me.settingChange(sender);
 			}
 		});
 	},

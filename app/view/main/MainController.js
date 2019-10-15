@@ -16,7 +16,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			callback: function() {
 				Ext.getStore('Words').load({
 					callback: function() {
-						me.generate(sender);
+						me.generate(sender, false);
 					}
 				});
 			}
@@ -28,7 +28,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			if (sender.getActiveItemIndex() != 0) return;
 			// Right or down arrow.
 			if (event.keyCode == 39 || event.keyCode == 40) {
-				me.generate(sender);
+				me.generate(sender, false);
 			}
 			// Left or up arrow.
 			else if (event.keyCode == 37 || event.keyCode == 38) {
@@ -42,11 +42,18 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		if (Ext.getStore('Words').isLoaded()) {
 			var enableLandscape = sender.down('#generateLandscape').getChecked();
 			var enablePortrait = sender.down('#generatePortrait').getChecked();
-			if ((Ext.Viewport.getOrientation() == 'portrait' && enablePortrait) ||
-				(Ext.Viewport.getOrientation() == 'landscape' && enableLandscape)) {
-				me.generate(sender);
+			if (((Ext.Viewport.getOrientation() == 'portrait') && enablePortrait) ||
+				((Ext.Viewport.getOrientation() == 'landscape') && enableLandscape)) {
+
+				// If the user has entered custome text, don't overwrite it
+				var customText = sender.down('#customText').getValue();
+				if (!Ext.isEmpty(customText)) return;
+				me.generate(sender, false);
 			}
-			me.setSize();
+			else {
+				var wordPanel = sender.down('word');
+				wordPanel.fireEvent('setsize', wordPanel);
+			}
 		}
 	},
 
@@ -62,7 +69,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		// If no categories are enabled.
 		if (categoryStore.findExact('selected', true) == -1) {
 			// Show error.
-			this.setText(wordPanel, {
+			wordPanel.fireEvent('settext', wordPanel, {
 				word: 'No word lists enabled'
 			});
 			return;
@@ -71,7 +78,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		// If no words exist
 		if (wordStore.getCount() == 0) {
 			// Show error.
-			this.setText(wordPanel, {
+			wordPanel.fireEvent('settext', wordPanel, {
 				word: 'No words'
 			});
 			return;
@@ -102,6 +109,5 @@ Ext.define('OneRandomWord.view.main.MainController', {
 
 		// Update displayed word.
 		wordPanel.fireEvent('settext', wordPanel, word.data);
-		//this.setText(wordPanel, word.data);
 	}
 });

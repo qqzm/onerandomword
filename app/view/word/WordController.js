@@ -8,10 +8,12 @@ Ext.define('OneRandomWord.view.word.WordController', {
 			function(event) {
 				var mainPanel = sender.up('app-main');
 				if (event.direction == 'right' || event.direction == 'down') {
+					//console.log('forwards');
 					mainPanel.fireEvent('generate', sender, true);
 				}
 				else if (event.direction == 'left' || event.direction == 'up') {
-					mainPanel.fireEvent('generate', sender);
+					//console.log('backwards');
+					mainPanel.fireEvent('generate', sender, false);
 				}
 			},
 			sender
@@ -41,12 +43,12 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		label.setData(data);
 
 		wordPanel.setData(data);
-		this.setSize();
+		this.setSize(wordPanel);
 	},
 
-	setSize() {
-		var wordWrapper = document.getElementById("word_wrapper");
-		var wordDiv = document.getElementById("word_div");
+	setSize(wordPanel) {
+		var wordWrapper = wordPanel.bodyElement.dom;
+		var wordDiv = Ext.getDom('word_div');
 		var fontSize = 1200;
 
 		do {

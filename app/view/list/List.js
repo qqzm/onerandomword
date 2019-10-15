@@ -71,6 +71,7 @@ Ext.define('OneRandomWord.view.list.List', {
 			{
 				label: 'Single words only',
 				itemId: 'singleWordsOnly',
+				checked: true,
 				listeners: {
 					change: 'settingChange'
 				}
@@ -81,11 +82,11 @@ Ext.define('OneRandomWord.view.list.List', {
 					change: 'settingChange'
 				}
 			},{
-				label: 'Generate new word when changing to landscape',
+				label: 'Refresh when changing to landscape',
 				itemId: 'generateLandscape',
 				checked: true
 			},{
-				label: 'Generate new word when changing to portrait',
+				label: 'Refresh when changing to portrait',
 				itemId: 'generatePortrait'
 			},
 			{
