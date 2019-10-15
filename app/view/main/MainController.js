@@ -16,7 +16,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			callback: function() {
 				Ext.getStore('Words').load({
 					callback: function() {
-						me.generate(sender, false);
+						me.generate(false);
 					}
 				});
 			}
@@ -28,39 +28,38 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			if (sender.getActiveItemIndex() != 0) return;
 			// Right or down arrow.
 			if (event.keyCode == 39 || event.keyCode == 40) {
-				me.generate(sender, false);
+				me.generate(false);
 			}
 			// Left or up arrow.
 			else if (event.keyCode == 37 || event.keyCode == 38) {
-				me.generate(sender, true);
+				me.generate(true);
 			}
 		};
 	},
 
-	resize: function(sender) {
+	resize: function() {
 		var me = this;
+		var mainPanel = me.getView()
 		if (Ext.getStore('Words').isLoaded()) {
-			var enableLandscape = sender.down('#generateLandscape').getChecked();
-			var enablePortrait = sender.down('#generatePortrait').getChecked();
+			var enableLandscape = mainPanel.down('#generateLandscape').getChecked();
+			var enablePortrait = mainPanel.down('#generatePortrait').getChecked();
 			if (((Ext.Viewport.getOrientation() == 'portrait') && enablePortrait) ||
 				((Ext.Viewport.getOrientation() == 'landscape') && enableLandscape)) {
 
 				// If the user has entered custome text, don't overwrite it
-				var customText = sender.down('#customText').getValue();
+				var customText = mainPanel.down('#customText').getValue();
 				if (!Ext.isEmpty(customText)) return;
-				me.generate(sender, false);
+				me.generate(false);
 			}
 			else {
-				var wordPanel = sender.down('word');
+				var wordPanel = mainPanel.down('word');
 				wordPanel.fireEvent('setsize', wordPanel);
 			}
 		}
 	},
 
-	generate: function(sender, isBack) {
-		var mainPanel = sender.up('app-main');
-		if (!Ext.isDefined(mainPanel)) mainPanel = sender;
-		var wordPanel = mainPanel.down('word');
+	generate: function(isBack) {
+		var wordPanel = this.getView().down('word');
 		if (!Ext.isDefined(wordPanel)) return;
 
 		var wordStore = Ext.getStore('Words');

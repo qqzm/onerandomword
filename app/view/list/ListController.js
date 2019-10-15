@@ -45,6 +45,16 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		wordStore.filter(filters);
 	},
 
+	timerChange: function(sender, newValue) {
+		var mainPanel = sender.up('app-main');
+		var timerToolbar = mainPanel.down('#timerToolbar');
+		timerToolbar.setHidden(newValue == 0);
+		timerToolbar.down('label').setData({
+			time: newValue,
+			current_time: newValue
+		});
+	},
+
 	onCheck: function(sender) {
 		var totalWords = 0;
 		var categoryStore = Ext.getStore('Categories');
@@ -100,6 +110,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		// Change settings.
 		var optionsPanel = preset.up('options');
 		optionsPanel.down('#singleWordsOnly').setChecked(presetRec.get('is_single_word_only'));
+		optionsPanel.down('#timerLength').setValue(presetRec.get('timer'));
 
 		this.onCheck(preset);
 	}

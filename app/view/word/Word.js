@@ -20,7 +20,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 		items: [
 			{
 				xtype: 'label',
-				itemId: 'category_label',
+				itemId: 'categoryLabel',
 				tpl: '<span style="font-size:small;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;">{category_label}</span>'
 			},
 			'->',
@@ -40,12 +40,33 @@ Ext.define('OneRandomWord.view.word.Word',{
 		]
 	},
 
-	tpl: '<div id="word_div" style="padding-left:50px;padding-right:50px;overflow:auto;font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;line-height:1.2;text-align:center;color:slategray;">{word}</div>',
-	//tpl: '<svg viewBox="0 0 100 50" preserveAspectRatio="xMidYMid slice"><text font-size="12" fill="slategray" style="font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" width="75%" height="auto">{word}</text></svg>'
+	tpl: '<div id="word_div" style="padding-left:20px;padding-right:20px;overflow:auto;font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;line-height:1.2;text-align:center;color:slategray;">{word}</div>',
+
+	bbar: {
+		itemId: 'timerToolbar',
+		hidden: true,
+		style: {
+			background: '#5FA2DD'
+		},
+		items: [{
+			xtype: 'label',
+			tpl: '<span style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;">{current_time}</span>'
+		},'->',{
+			iconCls: 'x-fa fa-play',
+			handler: 'startClick'
+		},{
+			iconCls: 'x-fa fa-stop',
+			handler: 'stopClick'
+		},{
+			iconCls: 'x-fa fa-history',
+			handler: 'resetClick'
+		}]
+	},
 
 	listeners: {
 		initialize: 'initialise',
 		settext: 'setText',
-		setsize: 'setSize'
+		setsize: 'setSize',
+		stoptimer: 'stopClick'
 	}
 });

@@ -14,7 +14,6 @@ Ext.define('OneRandomWord.view.list.List', {
 	},
 
 	layout: 'card',
-	//scrollable: 'vertical',
 
 	tbar: {
 		items: [
@@ -44,8 +43,6 @@ Ext.define('OneRandomWord.view.list.List', {
 	items: [{
 		xtype: 'panel',
 		title: 'Presets',
-		//flex: 1,
-		//scrollable: 'vertical',
 		defaults: {
 			labelWidth: 325,
 			style: {
@@ -58,8 +55,6 @@ Ext.define('OneRandomWord.view.list.List', {
 	},{
 		xtype: 'panel',
 		title: 'Options',
-		//flex: 1,
-		//scrollable: 'vertical',
 		defaults: {
 			xtype: 'checkbox',
 			labelWidth: 325,
@@ -93,6 +88,18 @@ Ext.define('OneRandomWord.view.list.List', {
 				xtype: 'label',
 				tpl: '{count} words selected',
 				hidden: true
+			},
+			{
+				xtype: 'spinnerfield',
+				itemId: 'timerLength',
+				label: 'Timer Length (seconds)',
+				value: 0,
+				minValue: 0,
+				maxValue: 60,
+				maxWidth: 420,
+				listeners: {
+					change: 'timerChange'
+				}
 			}
 		]
 	},{

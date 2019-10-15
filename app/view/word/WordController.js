@@ -3,17 +3,21 @@ Ext.define('OneRandomWord.view.word.WordController', {
 	alias: 'controller.word',
 
 	initialise: function(sender) {
+		this.taskRunner = Ext.create('Ext.util.TaskRunner').newTask({
+			run: this.updateTimer,
+			scope: this,
+			interval: 1000
+		});
+
 		sender.element.on(
 			'swipe', 
 			function(event) {
 				var mainPanel = sender.up('app-main');
 				if (event.direction == 'right' || event.direction == 'down') {
-					//console.log('forwards');
-					mainPanel.fireEvent('generate', sender, true);
+					mainPanel.fireEvent('generate', true);
 				}
 				else if (event.direction == 'left' || event.direction == 'up') {
-					//console.log('backwards');
-					mainPanel.fireEvent('generate', sender, false);
+					mainPanel.fireEvent('generate', false);
 				}
 			},
 			sender
@@ -37,16 +41,17 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		});
 	},
 
-	setText(wordPanel, data) {
+	setText: function(wordPanel, data) {
 		// Update displayed word and category.
-		var label = wordPanel.up('app-main').down('#category_label');
+		var label = wordPanel.up('app-main').down('#categoryLabel');
 		label.setData(data);
 
 		wordPanel.setData(data);
 		this.setSize(wordPanel);
 	},
 
-	setSize(wordPanel) {
+	setSize: function(wordPanel) {
+		// Expand the current text to fill the current screen size.
 		var wordWrapper = wordPanel.bodyElement.dom;
 		var wordDiv = Ext.getDom('word_div');
 		var fontSize = 1200;
@@ -57,4 +62,42 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		}
 		while ((wordDiv.scrollHeight > wordDiv.clientHeight) || (wordDiv.scrollWidth > wordDiv.clientWidth) || (wordWrapper.clientHeight < wordDiv.clientHeight) || (wordWrapper.clientWidth < wordDiv.clientWidth));
 	},
+
+	updateTimer: function() {
+		var wordPanel = this.getView();
+		var timerLabel = wordPanel.down('#timerToolbar').down('label');
+		var data = timerLabel.getData();
+		data.current_time--;
+		timerLabel.setData(data);
+
+		if (data.current_time == 0) {
+			wordPanel.fireEvent('stoptimer');
+			wordPanel.fireEvent('settext', wordPanel, {
+				word: 'Time up'
+			});
+		};
+	},
+
+	startClick: function() {
+		var wordPanel = this.getView();
+		var timerLabel = wordPanel.down('#timerToolbar').down('label');
+		var data = timerLabel.getData();
+		if (data.current_time == 0) {
+			data.current_time = data.time;
+			timerLabel.setData(data);
+		}
+		this.taskRunner.start();
+	},
+
+	stopClick: function() {
+		this.taskRunner.stop();
+	},
+
+	resetClick: function() {
+		this.taskRunner.stop();
+		var timerLabel = this.getView().down('#timerToolbar').down('label');
+		var data = timerLabel.getData();
+		data.current_time = data.time;
+		timerLabel.setData(data);
+	}
 });
