@@ -96,25 +96,30 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		};
 	},
 
-	startClick: function() {
-		var wordPanel = this.getView();
-		var timerLabel = wordPanel.down('#timerToolbar').down('label');
-		var data = timerLabel.getData();
-		if (data.current_time == 0) {
-			data.current_time = data.time;
-			data.word_count = 0;
-			timerLabel.setData(data);
-		}
-		this.taskRunner.start();
-		// If this is a new timed turn, generate a new word.
-		if (data.current_time == data.time) {
-			var mainPanel = wordPanel.up('app-main');
-			mainPanel.fireEvent('generate', false);
-		}
-	},
+	timerClick: function(sender) {
+		var timerStopped = !Ext.isDefined(this.taskRunner.stopped) || this.taskRunner.stopped;
 
-	stopClick: function() {
-		this.taskRunner.stop();
+		if (timerStopped) {
+			sender.setIconCls('x-fa fa-stop');
+			var wordPanel = this.getView();
+			var timerLabel = wordPanel.down('#timerToolbar').down('label');
+			var data = timerLabel.getData();
+			if (data.current_time == 0) {
+				data.current_time = data.time;
+				data.word_count = 0;
+				timerLabel.setData(data);
+			}
+			this.taskRunner.start();
+			// If this is a new timed turn, generate a new word.
+			if (data.current_time == data.time) {
+				var mainPanel = wordPanel.up('app-main');
+				mainPanel.fireEvent('generate', false);
+			}
+		}
+		else {
+			sender.setIconCls('x-fa fa-play');
+			this.taskRunner.stop();
+		}
 	},
 
 	resetClick: function() {

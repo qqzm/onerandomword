@@ -50,7 +50,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 		},
 		items: [{
 			xtype: 'label',
-			tpl: '<div style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;"><span>Time: {current_time}</span><span style="padding-left:10px;">Word: {word_count}</span></div>',
+			tpl: '<div style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;"><span>Time: {current_time}</span><span style="padding-left:20px;">Word: {word_count}</span></div>',
 			data: {
 				current_time: 0,
 				time: 30,
@@ -58,10 +58,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 			}
 		},'->',{
 			iconCls: 'x-fa fa-play',
-			handler: 'startClick'
-		},{
-			iconCls: 'x-fa fa-stop',
-			handler: 'stopClick'
+			handler: 'timerClick'
 		},{
 			iconCls: 'x-fa fa-history',
 			handler: 'resetClick'
