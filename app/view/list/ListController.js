@@ -51,11 +51,13 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		timerToolbar.setHidden(newValue == 0);
 		timerToolbar.down('label').setData({
 			time: newValue,
-			current_time: newValue
+			current_time: newValue,
+			word_count: 0
 		});
 	},
 
 	onCheck: function(sender) {
+		/*
 		var totalWords = 0;
 		var categoryStore = Ext.getStore('Categories');
 		for (var i = 0; i < categoryStore.getCount(); i++) {
@@ -68,6 +70,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		sender.up('options').down('label').setData({
 			count: totalWords
 		});
+		*/
 	},
 
 	createRadioGroup: function(sender) {

@@ -50,7 +50,12 @@ Ext.define('OneRandomWord.view.word.Word',{
 		},
 		items: [{
 			xtype: 'label',
-			tpl: '<span style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;">{current_time}</span>'
+			tpl: '<div style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;"><span>Timer: {current_time}</span><span style="padding-left:50px;">Word: {word_count}</span></div>',
+			data: {
+				current_time: 0,
+				time: 30,
+				word_count: 0
+			}
 		},'->',{
 			iconCls: 'x-fa fa-play',
 			handler: 'startClick'

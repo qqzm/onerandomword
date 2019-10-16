@@ -42,9 +42,26 @@ Ext.define('OneRandomWord.view.word.WordController', {
 	},
 
 	setText: function(wordPanel, data) {
+		// Only update text if timer is disabled or running.
+		var timerToolbar = wordPanel.down('#timerToolbar');
+		var timerEnabled = timerToolbar.isVisible();
+		var timerStopped = !Ext.isDefined(this.taskRunner.stopped) || this.taskRunner.stopped;
+		if (timerEnabled && timerStopped) return;
+
 		// Update displayed word and category.
 		var label = wordPanel.up('app-main').down('#categoryLabel');
 		label.setData(data);
+
+		if (!Ext.isDefined(data.error) || !data.error) {
+			var timerLabel = timerToolbar.down('label');
+			if (Ext.isDefined(timerLabel)) {
+				var timerData = timerLabel.getData();
+				if (Ext.isDefined(timerData) && Ext.isDefined(timerData.word_count)) {
+					timerData.word_count++;
+					timerLabel.setData(timerData);
+				}
+			}
+		}
 
 		wordPanel.setData(data);
 		this.setSize(wordPanel);
@@ -71,10 +88,11 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		timerLabel.setData(data);
 
 		if (data.current_time == 0) {
-			wordPanel.fireEvent('stoptimer');
 			wordPanel.fireEvent('settext', wordPanel, {
-				word: 'Time up'
+				word: 'Time up',
+				error: true
 			});
+			wordPanel.fireEvent('stoptimer');
 		};
 	},
 
@@ -84,9 +102,15 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		var data = timerLabel.getData();
 		if (data.current_time == 0) {
 			data.current_time = data.time;
+			data.word_count = 0;
 			timerLabel.setData(data);
 		}
 		this.taskRunner.start();
+		// If this is a new timed turn, generate a new word.
+		if (data.current_time == data.time) {
+			var mainPanel = wordPanel.up('app-main');
+			mainPanel.fireEvent('generate', false);
+		}
 	},
 
 	stopClick: function() {
@@ -98,6 +122,7 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		var timerLabel = this.getView().down('#timerToolbar').down('label');
 		var data = timerLabel.getData();
 		data.current_time = data.time;
+		data.word_count = 0;
 		timerLabel.setData(data);
 	}
 });

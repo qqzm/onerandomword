@@ -69,7 +69,8 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		if (categoryStore.findExact('selected', true) == -1) {
 			// Show error.
 			wordPanel.fireEvent('settext', wordPanel, {
-				word: 'No word lists enabled'
+				word: 'No word lists enabled',
+				error: true
 			});
 			return;
 		}
@@ -78,7 +79,8 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		if (wordStore.getCount() == 0) {
 			// Show error.
 			wordPanel.fireEvent('settext', wordPanel, {
-				word: 'No words'
+				word: 'No words',
+				error: true
 			});
 			return;
 		}

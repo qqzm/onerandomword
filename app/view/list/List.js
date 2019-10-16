@@ -43,6 +43,8 @@ Ext.define('OneRandomWord.view.list.List', {
 	items: [{
 		xtype: 'panel',
 		title: 'Presets',
+		layout: 'form',
+		scrollable: 'vertical',
 		defaults: {
 			labelWidth: 325,
 			style: {
@@ -57,7 +59,8 @@ Ext.define('OneRandomWord.view.list.List', {
 		title: 'Options',
 		defaults: {
 			xtype: 'checkbox',
-			labelWidth: 325,
+			labelWidth: 330,
+			width: 360,
 			style: {
 				paddingLeft: '10px'
 			}
@@ -84,11 +87,13 @@ Ext.define('OneRandomWord.view.list.List', {
 				label: 'Refresh when changing to portrait',
 				itemId: 'generatePortrait'
 			},
+			/*
 			{
 				xtype: 'label',
 				tpl: '{count} words selected',
 				hidden: true
 			},
+			*/
 			{
 				xtype: 'spinnerfield',
 				itemId: 'timerLength',
@@ -96,7 +101,7 @@ Ext.define('OneRandomWord.view.list.List', {
 				value: 0,
 				minValue: 0,
 				maxValue: 60,
-				maxWidth: 420,
+				labelWidth: 220,
 				listeners: {
 					change: 'timerChange'
 				}
