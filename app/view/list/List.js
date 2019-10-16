@@ -1,11 +1,12 @@
 Ext.define('OneRandomWord.view.list.List', {
-	extend: 'Ext.panel.Panel',
+	extend: 'Ext.tab.Panel',
 	xtype: 'options',
 
 	requires: [
 		'OneRandomWord.view.list.ListController',
 		'OneRandomWord.view.list.ListModel',
-		'Ext.grid.Grid'
+		'Ext.grid.Grid',
+		'Ext.tab.Panel'
 	],
 
 	controller: 'list',
@@ -13,8 +14,16 @@ Ext.define('OneRandomWord.view.list.List', {
 		type: 'list'
 	},
 
-	layout: 'card',
-
+	tabBarPosition: 'bottom',
+	defaults: {
+		scrollable: 'vertical',
+		tab: {
+			iconAlign: 'top'
+		}
+	},
+	
+	//layout: 'card',
+/*
 	tbar: {
 		items: [
 			{
@@ -38,13 +47,12 @@ Ext.define('OneRandomWord.view.list.List', {
 				handler: 'buttonClick'
 			}
 		]
-	},
+	},*/
 
 	items: [{
 		xtype: 'panel',
 		title: 'Presets',
-		layout: 'form',
-		scrollable: 'vertical',
+		iconCls: 'x-fa fa-sliders',
 		defaults: {
 			labelWidth: 325,
 			style: {
@@ -53,10 +61,18 @@ Ext.define('OneRandomWord.view.list.List', {
 		},
 		listeners: {
 			initialize: 'createRadioGroup'
+		},
+		tbar: {
+			items: [{
+				text: 'Back',
+				iconCls: 'x-fa fa-arrow-left',
+				handler: 'backClick'
+			}]
 		}
 	},{
 		xtype: 'panel',
 		title: 'Options',
+		iconCls: 'x-fa fa-cog',
 		defaults: {
 			xtype: 'checkbox',
 			labelWidth: 330,
@@ -86,6 +102,10 @@ Ext.define('OneRandomWord.view.list.List', {
 			},{
 				label: 'Refresh when changing to portrait',
 				itemId: 'generatePortrait'
+			},{
+				label: 'Resize text to fill the screen',
+				itemId: 'resizeText',
+				checked: true
 			},
 			/*
 			{
@@ -106,17 +126,22 @@ Ext.define('OneRandomWord.view.list.List', {
 					change: 'timerChange'
 				}
 			}
-		]
+		],
+		tbar: {
+			items: [{
+				text: 'Back',
+				iconCls: 'x-fa fa-arrow-left',
+				handler: 'backClick'
+			}]
+		}
 	},{
 		xtype: 'panel',
 		title: 'Word Lists',
+		iconCls: 'x-fa fa-list-ul',
 		layout: 'fit',
-		//scrollable: false,
-		//flex: 2,
 		items: [{
 			xtype: 'grid',
 			store: 'Categories',
-			//scrollable: false,
 			hideHeaders: true,
 	
 			columns: [{
@@ -141,7 +166,14 @@ Ext.define('OneRandomWord.view.list.List', {
 			listeners: {
 				painted: 'onCheck'
 			}
-		}]
+		}],
+		tbar: {
+			items: [{
+				text: 'Back',
+				iconCls: 'x-fa fa-arrow-left',
+				handler: 'backClick'
+			}]
+		}
 	}]
 	
 });

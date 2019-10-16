@@ -58,6 +58,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 			}
 		},'->',{
 			iconCls: 'x-fa fa-play',
+			itemId: 'timerButton',
 			handler: 'timerClick'
 		},{
 			iconCls: 'x-fa fa-history',
@@ -69,6 +70,6 @@ Ext.define('OneRandomWord.view.word.Word',{
 		initialize: 'initialise',
 		settext: 'setText',
 		setsize: 'setSize',
-		stoptimer: 'stopClick'
+		stoptimer: 'timerClick'
 	}
 });

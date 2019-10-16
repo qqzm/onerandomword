@@ -69,9 +69,16 @@ Ext.define('OneRandomWord.view.word.WordController', {
 
 	setSize: function(wordPanel) {
 		// Expand the current text to fill the current screen size.
+		var resizeTextOption = wordPanel.up('app-main').down('#resizeText').getChecked();
+
 		var wordWrapper = wordPanel.bodyElement.dom;
 		var wordDiv = Ext.getDom('word_div');
 		var fontSize = 1200;
+
+		if (!resizeTextOption) {
+			wordDiv.style.fontSize = '36px';
+			return;
+		}
 
 		do {
 			wordDiv.style.fontSize = fontSize + 'px';
@@ -96,12 +103,13 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		};
 	},
 
-	timerClick: function(sender) {
+	timerClick: function() {
+		var wordPanel = this.getView();
+		var timerButton = wordPanel.down('#timerButton');
 		var timerStopped = !Ext.isDefined(this.taskRunner.stopped) || this.taskRunner.stopped;
 
 		if (timerStopped) {
-			sender.setIconCls('x-fa fa-stop');
-			var wordPanel = this.getView();
+			timerButton.setIconCls('x-fa fa-stop');
 			var timerLabel = wordPanel.down('#timerToolbar').down('label');
 			var data = timerLabel.getData();
 			if (data.current_time == 0) {
@@ -117,7 +125,7 @@ Ext.define('OneRandomWord.view.word.WordController', {
 			}
 		}
 		else {
-			sender.setIconCls('x-fa fa-play');
+			timerButton.setIconCls('x-fa fa-play');
 			this.taskRunner.stop();
 		}
 	},
