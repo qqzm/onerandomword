@@ -71,7 +71,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			wordPanel.fireEvent('settext', wordPanel, {
 				word: 'No word lists enabled',
 				error: true
-			});
+			}, false);
 			return;
 		}
 
@@ -81,34 +81,36 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			wordPanel.fireEvent('settext', wordPanel, {
 				word: 'No words',
 				error: true
-			});
+			}, false);
 			return;
 		}
 
 		// Go through the wordlist until we find one in an enabled category.
 		var word;
 		var category;
+		var newIndex = this.lastIndex;
 		do {
 			if (isBack) { // Go backwards.
-				this.lastIndex--;
-				if (this.lastIndex < 0) {
-					this.lastIndex = wordStore.getCount() - 1;
+				newIndex--;
+				if (newIndex < 0) {
+					newIndex = wordStore.getCount() - 1;
 				}
 			}
 			else { // Is forwards.
-				this.lastIndex++;
-				if (this.lastIndex >= wordStore.getCount()) {
-					this.lastIndex = 0;
+				newIndex++;
+				if (newIndex >= wordStore.getCount()) {
+					newIndex = 0;
 				}
 			}
 			
-			word = wordStore.getAt(this.lastIndex);
+			word = wordStore.getAt(newIndex);
 			category = categoryStore.getAt(categoryStore.findExact('id', word.get('category_id')));
 			word.set('category_label', category.get('label'));
 		}
 		while (category.get('selected') == false);
 
 		// Update displayed word.
-		wordPanel.fireEvent('settext', wordPanel, word.data);
+		this.lastIndex = newIndex;
+		wordPanel.fireEvent('settext', wordPanel, word.data, isBack);
 	}
 });

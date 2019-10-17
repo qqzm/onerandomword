@@ -38,10 +38,10 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		this.setText(wordPanel, {
 			word: newValue,
 			category_label: 'User entered'
-		});
+		}, false);
 	},
 
-	setText: function(wordPanel, data) {
+	setText: function(wordPanel, data, isBack) {
 		// Only update text if timer is disabled or running.
 		var timerToolbar = wordPanel.down('#timerToolbar');
 		var timerEnabled = timerToolbar.isVisible();
@@ -51,20 +51,25 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		// Update displayed word and category.
 		var label = wordPanel.up('app-main').down('#categoryLabel');
 		label.setData(data);
+		wordPanel.setData(data);
+		this.setSize(wordPanel);
 
 		if (!Ext.isDefined(data.error) || !data.error) {
 			var timerLabel = timerToolbar.down('label');
-			if (Ext.isDefined(timerLabel)) {
-				var timerData = timerLabel.getData();
-				if (Ext.isDefined(timerData) && Ext.isDefined(timerData.word_count)) {
-					timerData.word_count++;
-					timerLabel.setData(timerData);
+			var timerData = timerLabel.getData();
+			if (isBack) {
+				if (timerData.word_count == 1) {
+					return;
 				}
+				timerData.word_count--;
+				wordPanel.recentWords.pop();
 			}
+			else {
+				timerData.word_count++;
+				wordPanel.recentWords.push(data.word);
+			}
+			timerLabel.setData(timerData);
 		}
-
-		wordPanel.setData(data);
-		this.setSize(wordPanel);
 	},
 
 	setSize: function(wordPanel) {
@@ -76,7 +81,7 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		var fontSize = 1200;
 
 		if (!resizeTextOption) {
-			wordDiv.style.fontSize = '36px';
+			wordDiv.style.fontSize = '48px';
 			return;
 		}
 
@@ -95,10 +100,14 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		timerLabel.setData(data);
 
 		if (data.current_time == 0) {
+			var words = '';
+			for (var i=0; i<wordPanel.recentWords.length; i++) {
+				words += '<br/>' + wordPanel.recentWords[i];
+			}
 			wordPanel.fireEvent('settext', wordPanel, {
-				word: 'Time up',
+				word: '<font color="#B80F0A">Time up!</font>' + words,
 				error: true
-			});
+			}, false);
 			wordPanel.fireEvent('stoptimer');
 		};
 	},
@@ -112,10 +121,11 @@ Ext.define('OneRandomWord.view.word.WordController', {
 			timerButton.setIconCls('x-fa fa-stop');
 			var timerLabel = wordPanel.down('#timerToolbar').down('label');
 			var data = timerLabel.getData();
-			if (data.current_time == 0) {
+			if (data.current_time == 0 || data.current_time == data.time) {
 				data.current_time = data.time;
 				data.word_count = 0;
 				timerLabel.setData(data);
+				wordPanel.recentWords = [];
 			}
 			this.taskRunner.start();
 			// If this is a new timed turn, generate a new word.
@@ -131,11 +141,13 @@ Ext.define('OneRandomWord.view.word.WordController', {
 	},
 
 	resetClick: function() {
+		var wordPanel = this.getView();
 		this.taskRunner.stop();
 		var timerLabel = this.getView().down('#timerToolbar').down('label');
 		var data = timerLabel.getData();
 		data.current_time = data.time;
 		data.word_count = 0;
 		timerLabel.setData(data);
+		wordPanel.recentWords = [];
 	}
 });

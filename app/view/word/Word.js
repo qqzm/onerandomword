@@ -13,6 +13,8 @@ Ext.define('OneRandomWord.view.word.Word',{
 		type: 'word'
 	},
 
+	recentWords: [],
+
 	tbar: {
 		style: {
 			background: '#5FA2DD'

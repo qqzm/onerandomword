@@ -66,7 +66,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 				totalWords += rec.get('wordCount');
 			}
 		}
-		
+
 		sender.up('options').down('label').setData({
 			count: totalWords
 		});
@@ -113,6 +113,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		// Change settings.
 		var optionsPanel = preset.up('options');
 		optionsPanel.down('#singleWordsOnly').setChecked(presetRec.get('is_single_word_only'));
+		optionsPanel.down('#resizeText').setChecked(presetRec.get('resize_text'));
 		optionsPanel.down('#timerLength').setValue(presetRec.get('timer'));
 
 		this.onCheck(preset);

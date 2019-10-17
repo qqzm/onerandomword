@@ -21,33 +21,6 @@ Ext.define('OneRandomWord.view.list.List', {
 			iconAlign: 'top'
 		}
 	},
-	
-	//layout: 'card',
-/*
-	tbar: {
-		items: [
-			{
-				iconCls: 'x-fa fa-arrow-left',
-				handler: 'backClick'
-			},
-			'->',
-			{
-				//iconCls: 'x-fa fa-arrow-left',
-				text: 'Presets',
-				handler: 'buttonClick'
-			},
-			{
-				//iconCls: 'x-fa fa-arrow-left',
-				text: 'Options',
-				handler: 'buttonClick'
-			},
-			{
-				//iconCls: 'x-fa fa-arrow-left',
-				text: 'Word Lists',
-				handler: 'buttonClick'
-			}
-		]
-	},*/
 
 	items: [{
 		xtype: 'panel',
