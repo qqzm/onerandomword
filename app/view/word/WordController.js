@@ -81,7 +81,7 @@ Ext.define('OneRandomWord.view.word.WordController', {
 		var fontSize = 1200;
 
 		if (!resizeTextOption) {
-			wordDiv.style.fontSize = '48px';
+			wordDiv.style.fontSize = '36px';
 			return;
 		}
 
