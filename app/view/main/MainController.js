@@ -10,6 +10,10 @@ Ext.define('OneRandomWord.view.main.MainController', {
 	initialise: function(sender) {
 		var me = this;
 
+		Ext.Viewport.on('orientationchange', function(viewport, newOrientation) {
+			me.handleOrientationChange(newOrientation);
+		});
+
 		// Perform initial load.
 		me.lastIndex = 0;
 		Ext.getStore('Categories').load({
@@ -37,14 +41,14 @@ Ext.define('OneRandomWord.view.main.MainController', {
 		};
 	},
 
-	resize: function() {
+	handleOrientationChange: function(newOrientation) {
 		var me = this;
-		var mainPanel = me.getView()
+		var mainPanel = me.getView();
 		if (Ext.getStore('Words').isLoaded()) {
 			var enableLandscape = mainPanel.down('#generateLandscape').getChecked();
 			var enablePortrait = mainPanel.down('#generatePortrait').getChecked();
-			if (((Ext.Viewport.getOrientation() == 'portrait') && enablePortrait) ||
-				((Ext.Viewport.getOrientation() == 'landscape') && enableLandscape)) {
+			if (((newOrientation == 'portrait') && enablePortrait) ||
+				((newOrientation == 'landscape') && enableLandscape)) {
 
 				// If the user has entered custome text, don't overwrite it
 				var customText = mainPanel.down('#customText').getValue();

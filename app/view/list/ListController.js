@@ -42,6 +42,13 @@ Ext.define('OneRandomWord.view.list.ListController', {
 			});
 		}
 
+		// Remove all current filtering.
+		var currentFilters = wordStore.getFilters().items;
+		for (var i=0; i<currentFilters.length; i++) {
+			wordStore.removeFilter(currentFilters[i]);
+		}
+
+		// Apply the new filters.
 		wordStore.filter(filters);
 	},
 

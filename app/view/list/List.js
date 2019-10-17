@@ -147,6 +147,38 @@ Ext.define('OneRandomWord.view.list.List', {
 				handler: 'backClick'
 			}]
 		}
+	},{
+		xtype: 'panel',
+		title: 'Words',
+		iconCls: 'x-fa fa-edit',
+		layout: 'fit',
+		items: [{
+			xtype: 'grid',
+			store: 'Words',
+			//hideHeaders: true,
+	
+			columns: [{
+				dataIndex: 'id',
+				hidden: true,
+				width: 50
+			}, {
+				dataIndex: 'word',
+				flex: 3
+			}, {
+				dataIndex: 'is_single_word',
+				flex: 1
+			}, {
+				dataIndex: 'is_child_friendly',
+				flex: 1
+			}]
+		}],
+		tbar: {
+			items: [{
+				text: 'Back',
+				iconCls: 'x-fa fa-arrow-left',
+				handler: 'backClick'
+			}]
+		}
 	}]
 	
 });

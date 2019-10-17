@@ -23,7 +23,6 @@ Ext.define('OneRandomWord.view.main.Main', {
 	],
 
 	listeners: {
-		resize: 'resize',
 		initialize: 'initialise',
 		generate: 'generate'
 	}
