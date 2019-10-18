@@ -57,7 +57,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			}
 			else {
 				var wordPanel = mainPanel.down('word');
-				wordPanel.fireEvent('setsize', wordPanel);
+				wordPanel.fireEvent('resize', wordPanel);
 			}
 		}
 	},

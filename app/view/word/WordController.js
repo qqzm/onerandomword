@@ -78,16 +78,24 @@ Ext.define('OneRandomWord.view.word.WordController', {
 
 		var wordWrapper = wordPanel.bodyElement.dom;
 		var wordDiv = Ext.getDom('word_div');
-		var fontSize = 1200;
+		if (Ext.isEmpty(wordDiv)) return;
+		var fontSize;
 
-		if (!resizeTextOption) {
-			wordDiv.style.fontSize = '36px';
-			return;
+		if (resizeTextOption) {
+			fontSize = 1200;
+		}
+		else {
+			fontSize = 36;
 		}
 
 		do {
 			wordDiv.style.fontSize = fontSize + 'px';
-			fontSize -= 10;
+			if (resizeTextOption) {
+				fontSize -= 10;
+			}
+			else {
+				fontSize--;
+			}
 		}
 		while ((wordDiv.scrollHeight > wordDiv.clientHeight) || (wordDiv.scrollWidth > wordDiv.clientWidth) || (wordWrapper.clientHeight < wordDiv.clientHeight) || (wordWrapper.clientWidth < wordDiv.clientWidth));
 	},

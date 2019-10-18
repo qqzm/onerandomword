@@ -71,7 +71,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 	listeners: {
 		initialize: 'initialise',
 		settext: 'setText',
-		setsize: 'setSize',
-		stoptimer: 'timerClick'
+		stoptimer: 'timerClick',
+		resize: 'setSize'
 	}
 });
