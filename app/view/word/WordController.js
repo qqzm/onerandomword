@@ -101,7 +101,7 @@ Ext.define('OneRandomWord.view.word.WordController', {
 
 		if (data.current_time == 0) {
 			var words = '';
-			for (var i=0; i<wordPanel.recentWords.length; i++) {
+			for (var i = 0; i < wordPanel.recentWords.length; i++) {
 				words += '<br/>' + wordPanel.recentWords[i];
 			}
 			wordPanel.fireEvent('settext', wordPanel, {

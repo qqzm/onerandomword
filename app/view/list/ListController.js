@@ -23,6 +23,8 @@ Ext.define('OneRandomWord.view.list.ListController', {
 	},
 
 	settingChange: function(sender) {
+		var mainPanel = sender.up('app-main');
+		mainPanel.deduplication = {};
 		var optionsPanel = sender.up('options');
 		var singleWords = optionsPanel.down('#singleWordsOnly').isChecked();
 		var childFriendlyWords = optionsPanel.down('#childFriendlyWordsOnly').isChecked();
@@ -44,7 +46,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 
 		// Remove all current filtering.
 		var currentFilters = wordStore.getFilters().items;
-		for (var i=0; i<currentFilters.length; i++) {
+		for (var i = 0; i < currentFilters.length; i++) {
 			wordStore.removeFilter(currentFilters[i]);
 		}
 
@@ -64,6 +66,8 @@ Ext.define('OneRandomWord.view.list.ListController', {
 	},
 
 	onCheck: function(sender) {
+		var mainPanel = sender.up('app-main');
+		mainPanel.deduplication = {};
 		/*
 		var totalWords = 0;
 		var categoryStore = Ext.getStore('Categories');

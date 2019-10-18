@@ -17,13 +17,16 @@ Ext.define('OneRandomWord.view.main.Main', {
 
 	layout: 'card',
 
-	items: [
-		{xtype: 'word'},
-		{xtype: 'options'}
-	],
+	items: [{
+		xtype: 'word'
+	},{
+		xtype: 'options'
+	}],
 
 	listeners: {
 		initialize: 'initialise',
 		generate: 'generate'
-	}
+	},
+
+	deduplication: {}
 });

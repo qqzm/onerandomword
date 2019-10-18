@@ -147,7 +147,7 @@ Ext.define('OneRandomWord.view.list.List', {
 				handler: 'backClick'
 			}]
 		}
-	},{
+	}/*,{
 		xtype: 'panel',
 		title: 'Words',
 		iconCls: 'x-fa fa-edit',
@@ -155,7 +155,7 @@ Ext.define('OneRandomWord.view.list.List', {
 		items: [{
 			xtype: 'grid',
 			store: 'Words',
-			//hideHeaders: true,
+			hideHeaders: true,
 	
 			columns: [{
 				dataIndex: 'id',
@@ -179,6 +179,6 @@ Ext.define('OneRandomWord.view.list.List', {
 				handler: 'backClick'
 			}]
 		}
-	}]
+	}*/]
 	
 });
