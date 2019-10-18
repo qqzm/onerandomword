@@ -1,0 +1,26 @@
+.text {
+	font-family:Roboto,Gill Sans,Helvetica,sans-serif;
+}
+
+.padding {
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.word {
+	overflow:auto;
+	font-weight:600;
+	line-height:1.2;
+	text-align:center;
+	color:slategray;
+}
+
+.category {
+	font-size:small;
+	color:white;
+}
+
+.timer {
+	font-size:x-large;
+	color:white;
+}

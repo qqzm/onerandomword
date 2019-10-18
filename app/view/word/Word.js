@@ -23,7 +23,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 			{
 				xtype: 'label',
 				itemId: 'categoryLabel',
-				tpl: '<span style="font-size:small;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;">{category_label}</span>'
+				tpl: '<span class="text category">{category_label}</span>'
 			},
 			'->',
 			{
@@ -42,7 +42,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 		]
 	},
 
-	tpl: '<div id="word_div" style="padding-left:20px;padding-right:20px;overflow:auto;font-family:Roboto,Gill Sans,Helvetica,sans-serif;font-weight:600;line-height:1.2;text-align:center;color:slategray;">{word}</div>',
+	tpl: '<div id="word_div" class="text word padding">{word}</div>',
 
 	bbar: {
 		itemId: 'timerToolbar',
@@ -52,7 +52,7 @@ Ext.define('OneRandomWord.view.word.Word',{
 		},
 		items: [{
 			xtype: 'label',
-			tpl: '<div style="font-size:x-large;font-family:Roboto,Gill Sans,Helvetica,sans-serif;color:white;"><span>Time: {current_time}</span><span style="padding-left:20px;">Word: {word_count}</span></div>',
+			tpl: '<div class="text timer"><span>Time: {current_time}</span><span class="padding">Word: {word_count}</span></div>',
 			data: {
 				current_time: 0,
 				time: 30,
