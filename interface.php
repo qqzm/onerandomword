@@ -29,7 +29,7 @@ switch ($action) {
 
 function getCategories() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT Categories.id, groupLabel, label, selected, presets, COUNT(*) AS wordCount FROM Categories INNER JOIN Words ON category_id = Categories.id GROUP BY Categories.id ORDER BY groupLabel, label;");
+	$stmt = $db->prepare("SELECT Categories.id, groupLabel, label, selected, presets, COUNT(*) AS wordCount FROM Categories INNER JOIN Words ON category_id = Categories.id WHERE visibility<>'hidden' GROUP BY Categories.id ORDER BY groupLabel, label;");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -52,7 +52,7 @@ function getCategories() {
 
 function getPresets() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT id, label, bitmask, is_single_word_only, resize_text, timer, is_default FROM Presets ORDER BY `sequence`, label;");
+	$stmt = $db->prepare("SELECT id, label, bitmask, is_single_word_only, resize_text, timer, is_default FROM Presets WHERE visibility<>'hidden' ORDER BY `sequence`, label;");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -76,7 +76,7 @@ function getPresets() {
 
 function getWords() {
 	GLOBAL $db;
-	$stmt = $db->prepare("SELECT id, category_id, word, CASE WHEN word LIKE '% %' THEN 0 WHEN word LIKE '%-%' THEN 0 ELSE 1 END AS is_single_word, is_child_friendly FROM Words ORDER BY RAND();");
+	$stmt = $db->prepare("SELECT Words.id, category_id, word, CASE WHEN word LIKE '% %' THEN 0 WHEN word LIKE '%-%' THEN 0 ELSE 1 END AS is_single_word, is_child_friendly FROM Words INNER JOIN Categories ON category_id=Categories.id WHERE visibility<>'hidden' ORDER BY RAND();");
 	$stmt->execute();
 	$results = $stmt->fetchAll(PDO::FETCH_NUM);
 
