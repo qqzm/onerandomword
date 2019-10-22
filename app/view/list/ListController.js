@@ -52,13 +52,6 @@ Ext.define('OneRandomWord.view.list.ListController', {
 
 		// Apply the new filters.
 		wordStore.filter(filters);
-		
-		// Clear the selected preset (if any).
-		var presetsPanel = optionsPanel.down('#presetsPanel');
-		var presets = presetsPanel.query('radiofield');
-		Ext.Array.each(presets, function(preset) {
-			preset.uncheck();
-		});
 	},
 
 	timerChange: function(sender, newValue) {
