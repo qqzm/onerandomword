@@ -24,6 +24,7 @@ Ext.define('OneRandomWord.view.list.List', {
 
 	items: [{
 		xtype: 'panel',
+		itemId: 'presetsPanel',
 		title: 'Presets',
 		iconCls: 'x-fa fa-sliders',
 		defaults: {
@@ -134,11 +135,7 @@ Ext.define('OneRandomWord.view.list.List', {
 				listeners: {
 					checkchange: 'onCheck'
 				}
-			}],
-	
-			listeners: {
-				painted: 'onCheck'
-			}
+			}]
 		}],
 		tbar: {
 			items: [{

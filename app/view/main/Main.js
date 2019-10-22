@@ -28,5 +28,5 @@ Ext.define('OneRandomWord.view.main.Main', {
 		generate: 'generate'
 	},
 
-	deduplication: {}
+	deduplication: []
 });

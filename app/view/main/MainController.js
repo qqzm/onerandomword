@@ -101,6 +101,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 				if (newIndex < 0) {
 					newIndex = wordStore.getCount() - 1;
 				}
+				app.deduplication.pop();
 			}
 			else { // Is forwards.
 				newIndex++;
@@ -112,19 +113,20 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			word = wordStore.getAt(newIndex);
 			category = categoryStore.getAt(categoryStore.findExact('id', word.get('category_id')));
 			word.set('category_label', category.get('label'));
-			allowed = category.get('selected') && Ext.isEmpty(app.deduplication[word.get('word')]);
+
+			allowed = category.get('selected') && !app.deduplication.includes(word.get('word'));
 		}
 		// Continue until we find an allowed word or we go right round.
 		while (!allowed && (newIndex != this.lastIndex));
 
 		// If we went right the way around without finding a valid word.
 		if (newIndex == this.lastIndex) {
-			if (Object.keys(app.deduplication).length > 0) { // If there are words in the deduplication list, clear it.
+			if (app.deduplication.length > 0) { // If there are words in the deduplication list, clear it.
 				wordPanel.fireEvent('settext', wordPanel, {
 					word: 'You have seen all the words',
 					error: true
 				}, false);
-				app.deduplication = {};
+				app.deduplication = [];
 			}
 			else { // No words.
 				wordPanel.fireEvent('settext', wordPanel, {
@@ -137,7 +139,9 @@ Ext.define('OneRandomWord.view.main.MainController', {
 
 		// Update displayed word.
 		this.lastIndex = newIndex;
-		app.deduplication[word.get('word')] = 1;
+		if (!isBack) {
+			app.deduplication.push(word.get('word'));
+		}
 		wordPanel.fireEvent('settext', wordPanel, word.data, isBack);
 	}
 });

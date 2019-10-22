@@ -24,7 +24,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 
 	settingChange: function(sender) {
 		var mainPanel = sender.up('app-main');
-		mainPanel.deduplication = {};
+		mainPanel.deduplication = [];
 		var optionsPanel = sender.up('options');
 		var singleWords = optionsPanel.down('#singleWordsOnly').isChecked();
 		var childFriendlyWords = optionsPanel.down('#childFriendlyWordsOnly').isChecked();
@@ -52,6 +52,13 @@ Ext.define('OneRandomWord.view.list.ListController', {
 
 		// Apply the new filters.
 		wordStore.filter(filters);
+		
+		// Clear the selected preset (if any).
+		var presetsPanel = optionsPanel.down('#presetsPanel');
+		var presets = presetsPanel.query('radiofield');
+		Ext.Array.each(presets, function(preset) {
+			preset.uncheck();
+		});
 	},
 
 	timerChange: function(sender, newValue) {
@@ -67,7 +74,14 @@ Ext.define('OneRandomWord.view.list.ListController', {
 
 	onCheck: function(sender) {
 		var mainPanel = sender.up('app-main');
-		mainPanel.deduplication = {};
+		mainPanel.deduplication = [];
+
+		// Clear the selected preset (if any).
+		var presetsPanel = sender.up('options').down('#presetsPanel');
+		var presets = presetsPanel.query('radiofield');
+		Ext.Array.each(presets, function(preset) {
+			preset.uncheck();
+		});
 		/*
 		var totalWords = 0;
 		var categoryStore = Ext.getStore('Categories');
@@ -127,6 +141,7 @@ Ext.define('OneRandomWord.view.list.ListController', {
 		optionsPanel.down('#resizeText').setChecked(presetRec.get('resize_text'));
 		optionsPanel.down('#timerLength').setValue(presetRec.get('timer'));
 
-		this.onCheck(preset);
+		var mainPanel = optionsPanel.up('app-main');
+		mainPanel.deduplication = [];
 	}
 });
