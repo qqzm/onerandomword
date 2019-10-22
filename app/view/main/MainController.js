@@ -101,7 +101,6 @@ Ext.define('OneRandomWord.view.main.MainController', {
 				if (newIndex < 0) {
 					newIndex = wordStore.getCount() - 1;
 				}
-				app.deduplication.pop();
 			}
 			else { // Is forwards.
 				newIndex++;
@@ -114,7 +113,7 @@ Ext.define('OneRandomWord.view.main.MainController', {
 			category = categoryStore.getAt(categoryStore.findExact('id', word.get('category_id')));
 			word.set('category_label', category.get('label'));
 
-			allowed = category.get('selected') && !app.deduplication.includes(word.get('word'));
+			allowed = category.get('selected') && (isBack || !app.deduplication.includes(word.get('word')));
 		}
 		// Continue until we find an allowed word or we go right round.
 		while (!allowed && (newIndex != this.lastIndex));
@@ -139,7 +138,10 @@ Ext.define('OneRandomWord.view.main.MainController', {
 
 		// Update displayed word.
 		this.lastIndex = newIndex;
-		if (!isBack) {
+		if (isBack) {
+			app.deduplication.pop();
+		}
+		else {
 			app.deduplication.push(word.get('word'));
 		}
 		wordPanel.fireEvent('settext', wordPanel, word.data, isBack);
