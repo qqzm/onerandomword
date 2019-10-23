@@ -22,20 +22,23 @@
 	"progressive": {
         "manifest": {
 			"start_url": "index.html",
-            "name": "OneRandomWord",
+            "name": "1Word",
             "short_name": "1Word",
             "icons": [{
                 "src": "resources/icon-small.png",
                 "sizes": "96x96"
-            }, {
+            },{
                 "src": "resources/icon-apple.png",
                 "sizes": "150x150"
-            }, {
+            },{
                 "src": "resources/icon-medium.png",
                 "sizes": "192x192"
-            }, {
+            },{
                 "src": "resources/icon-large.png",
                 "sizes": "256x256"
+            },{
+                "src": "resources/icon-verylarge.png",
+                "sizes": "512x512"
             }],
             "theme_color": "#708090",
             "background_color": "#708090",

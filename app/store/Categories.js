@@ -9,7 +9,7 @@ Ext.define('OneRandomWord.store.Categories', {
 		type: 'ajax',
 		timeout: 120000,
 		// @sw-cache
-		url: "https://www.puzzlebunny.com/onerandomword/interface.php",
+		url: "https://www.1word.app/interface.php",
 		extraParams: {
 			action: 'categories'
 		}
